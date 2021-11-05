@@ -1,0 +1,36 @@
+#hero {
+   height: 400px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   text-align: center;
+   color: white;
+   margin-bottom: 2rem;
+   background: url(../images/homeBackground.jpg) center;
+   position: relative;
+}
+#hero:before {
+   content: '';
+   position: absolute;
+   left: 0;
+   top: 0;
+   width: 100%;
+   height: 100%;
+   background: rgba(0,0,0,.6);
+}
+#hero .container {
+   position: relative;
+}
+.itinerary-wrapper {
+   flex-direction: row;
+}
+.itinerary-wrapper .itinerary-img {
+   flex: 0 0 40%;
+   padding: 10px;
+}
+.itinerary-wrapper .itinerary-img img {
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+   border-radius: 5px;
+}
