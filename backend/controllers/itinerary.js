@@ -21,7 +21,6 @@ const createItinerary = asyncHandler(async (req, res) => {
      
    itinerary.user = req.user._id;
    const createdItinerary = await itinerary.save();
-   console.log(itinerary)
    res.status(201).json(createdItinerary);
 });
 
@@ -57,7 +56,6 @@ const getItinerary = asyncHandler(async (req, res) => {
 // @access Private
 const getUserItineraries = asyncHandler(async (req, res) => {
    const user = req.params.userId;
-   console.log(user)
    const itineraries = await Itinerary.find({ user })
       .populate('user', 'name')
       .populate('location')
@@ -118,8 +116,6 @@ const editTransport = asyncHandler(async (req, res) => {
       const transport = itinerary.transport.filter((t) => {
          return t._id === req.params.idtransport;
       })
-
-      console.log(transport)
       // const { type, value, description } = req.body; 
       // itinerary.transport.push({type, value, description });
       // const updatedItinerary = await itinerary.save();

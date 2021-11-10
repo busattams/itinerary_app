@@ -1,3 +1,4 @@
+import path from 'path';
 import dotenv from 'dotenv';
 import express from "express";
 import cors from "cors";
@@ -5,7 +6,6 @@ import connectDB from './config/database.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import userRoutes from './routes/user.js';
 import itineraryRoutes from './routes/itinerary.js'
-// import getLocationRoute from './routes/mapBox.js'
 
 dotenv.config();
 
@@ -24,15 +24,15 @@ app.use(function(req, res, next) {
 // ROUTES
 app.use('/api/users', userRoutes);
 app.use('/api/itinerary', itineraryRoutes);
-// app.use('/api/getlocation', getLocationRoute)
 
 
-
-app.get('/', (req, res) => {
-   res.send("Hello World");
-});
-
-
+const __dirname = path.resolve(); 
+if(process.env.NODE_ENV === 'production') {
+   app.use(express.static(path.join(__dirname, '/frontend/build')));
+   app.get('*', (req,res) => res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html')))
+} else {
+   app.get('/', (req, res) => res.send('API is running'));
+}
 
 app.use(notFound);
 app.use(errorHandler);
