@@ -7,8 +7,8 @@ import {
    NEW_ITINERARY_FAIL,
    ADD_TRANSPORT_SUCCESS,
    ADD_TRANSPORT_FAIL,
-   ADD_ACCOMODATION_SUCCESS,
-   ADD_ACCOMODATION_FAIL,
+   ADD_ACCOMMODATION_SUCCESS,
+   ADD_ACCOMMODATION_FAIL,
    ADD_DAILY_ITINERARY_SUCCESS,
    ADD_DAILY_ITINERARY_FAIL,
    CREATED_ITINERARY_SUCCESS,
@@ -20,7 +20,16 @@ import {
    RESET_NEW_ITINERARY,
    ITINERARY_DETAIL_REQUEST,
    ITINERARY_DETAIL_SUCCESS,
-   ITINERARY_DETAIL_FAIL
+   ITINERARY_DETAIL_FAIL,
+   REMOVE_TRANSPORT_SUCCESS,
+   REMOVE_TRANSPORT_FAIL,
+   REMOVE_ACCOMMODATION_SUCCESS,
+   REMOVE_ACCOMMODATION_FAIL,
+   REMOVE_DAILY_ITINERARY_SUCCESS,
+   REMOVE_DAILY_ITINERARY_FAIL,
+   USER_ITINERARY_DETAIL_REQUEST,
+   USER_ITINERARY_DETAIL_SUCCESS,
+   USER_ITINERARY_DETAIL_FAIL
 } from '../constants/itineraryConstants';
 import axios from 'axios';
 
@@ -63,6 +72,37 @@ export const listItineraryDetail = (id) => async (dispatch) => {
       })
    }
 }
+
+export const listUserItineraryDetail = (id) => async (dispatch, getState) => {
+   try {
+      dispatch({type: USER_ITINERARY_DETAIL_REQUEST});
+
+      const { userLogin: { userInfo } } = getState();
+      
+      const config = {
+         headers: {
+            Authorization: `Bearer ${userInfo.token}`
+         },
+      }
+      const { data } = await axios.get(
+         `${url}/itinerary/user/${id}`,
+         config
+      );
+
+      dispatch({
+         type: USER_ITINERARY_DETAIL_SUCCESS,
+         payload: data
+      });
+   } catch (error) {
+      dispatch({
+         type: USER_ITINERARY_DETAIL_FAIL,
+         payload: error.response && 
+            error.response.data.message ? error.response.data.message : 
+            error.message
+      })
+   }
+}
+
 
 export const newItinerary = (itinerary) => async (dispatch, getState) => {
    try {
@@ -165,7 +205,34 @@ export const addTransport = (id, transport) => async (dispatch, getState) => {
    }
 }
 
-export const addAccommodation = (id, accomodation) => async (dispatch, getState) => {
+export const deleteTransport = (id, idtransport) => async (dispatch, getState) => {
+   try {
+      dispatch({type: ITINERARY_FORM_REQUEST});
+      const { userLogin: { userInfo } } = getState();
+      
+      const config = {
+         headers: {
+            Authorization: `Bearer ${userInfo.token}`
+         },
+      }
+      await axios.delete(
+         `${url}/itinerary/${id}/transport/${idtransport}`,
+         config
+      );
+
+      dispatch({ type: REMOVE_TRANSPORT_SUCCESS });
+
+   } catch (error) {
+      dispatch({
+         type: REMOVE_TRANSPORT_FAIL,
+         payload: error.response && 
+            error.response.data.message ? error.response.data.message : 
+            error.message
+      })
+   }
+}
+
+export const addAccommodation = (id, accommodation) => async (dispatch, getState) => {
       try {
          dispatch({type: ITINERARY_FORM_REQUEST});
          const { userLogin: { userInfo } } = getState();
@@ -176,16 +243,43 @@ export const addAccommodation = (id, accomodation) => async (dispatch, getState)
             },
          }
      await axios.post(
-         `${url}/itinerary/${id}/accomodation`,
-         accomodation,
+         `${url}/itinerary/${id}/accommodation`,
+         accommodation,
          config
       );
       
-      dispatch({ type: ADD_ACCOMODATION_SUCCESS});
+      dispatch({ type: ADD_ACCOMMODATION_SUCCESS});
       
    } catch (error) {
       dispatch({
-         type: ADD_ACCOMODATION_FAIL,
+         type: ADD_ACCOMMODATION_FAIL,
+         payload: error.response && 
+            error.response.data.message ? error.response.data.message : 
+            error.message
+      })
+   }
+}
+
+export const deleteAccommodation = (id, idaccommodation) => async (dispatch, getState) => {
+   try {
+      dispatch({type: ITINERARY_FORM_REQUEST});
+      const { userLogin: { userInfo } } = getState();
+      
+      const config = {
+         headers: {
+            Authorization: `Bearer ${userInfo.token}`
+         },
+      }
+      await axios.delete(
+         `${url}/itinerary/${id}/accommodation/${idaccommodation}`,
+         config
+      );
+
+      dispatch({ type: REMOVE_ACCOMMODATION_SUCCESS });
+
+   } catch (error) {
+      dispatch({
+         type: REMOVE_ACCOMMODATION_FAIL,
          payload: error.response && 
             error.response.data.message ? error.response.data.message : 
             error.message
@@ -215,6 +309,33 @@ export const addDayItinerary = (id, dayDescription) => async (dispatch, getState
    } catch (error) {
       dispatch({
          type: ADD_DAILY_ITINERARY_FAIL,
+         payload: error.response && 
+            error.response.data.message ? error.response.data.message : 
+            error.message
+      })
+   }
+}
+
+export const deleteDayItinerary = (id, iddaily) => async (dispatch, getState) => {
+   try {
+      dispatch({type: ITINERARY_FORM_REQUEST});
+      const { userLogin: { userInfo } } = getState();
+      
+      const config = {
+         headers: {
+            Authorization: `Bearer ${userInfo.token}`
+         },
+      }
+      await axios.delete(
+         `${url}/itinerary/${id}/daily/${iddaily}`,
+         config
+      );
+
+      dispatch({ type: REMOVE_DAILY_ITINERARY_SUCCESS });
+
+   } catch (error) {
+      dispatch({
+         type: REMOVE_DAILY_ITINERARY_FAIL,
          payload: error.response && 
             error.response.data.message ? error.response.data.message : 
             error.message

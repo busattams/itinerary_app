@@ -7,8 +7,8 @@ import {
    NEW_ITINERARY_FAIL,
    ADD_TRANSPORT_FAIL,
    ADD_TRANSPORT_SUCCESS,
-   ADD_ACCOMODATION_SUCCESS,
-   ADD_ACCOMODATION_FAIL,
+   ADD_ACCOMMODATION_SUCCESS,
+   ADD_ACCOMMODATION_FAIL,
    ADD_DAILY_ITINERARY_FAIL,
    ADD_DAILY_ITINERARY_SUCCESS,
    CREATED_ITINERARY_SUCCESS,
@@ -20,7 +20,16 @@ import {
    RESET_NEW_ITINERARY,
    ITINERARY_DETAIL_REQUEST,
    ITINERARY_DETAIL_SUCCESS,
-   ITINERARY_DETAIL_FAIL
+   ITINERARY_DETAIL_FAIL,
+   REMOVE_TRANSPORT_SUCCESS,
+   REMOVE_TRANSPORT_FAIL,
+   REMOVE_ACCOMMODATION_SUCCESS,
+   REMOVE_ACCOMMODATION_FAIL,
+   REMOVE_DAILY_ITINERARY_SUCCESS,
+   REMOVE_DAILY_ITINERARY_FAIL,
+   USER_ITINERARY_DETAIL_REQUEST,
+   USER_ITINERARY_DETAIL_SUCCESS,
+   USER_ITINERARY_DETAIL_FAIL
 } from '../constants/itineraryConstants';
 
 const initialStateItineraryDetail = {
@@ -59,6 +68,18 @@ export const itineraryDetailReducer = (state = initialStateItineraryDetail, acti
    }
 }
 
+export const useritineraryDetailReducer = (state = initialStateItineraryDetail, action) => {
+   switch (action.type) {
+      case USER_ITINERARY_DETAIL_REQUEST:
+         return { loading: true, ...state };
+      case USER_ITINERARY_DETAIL_SUCCESS:
+         return { loading: false, itinerary: action.payload};
+      case USER_ITINERARY_DETAIL_FAIL:
+         return { loading: false, error: action.payload};
+      default:
+         return state;
+   }
+}
 export const newItineraryFormReducer = (state = {}, action) => {
    switch (action.type) {
       case ITINERARY_FORM_REQUEST:
@@ -71,13 +92,25 @@ export const newItineraryFormReducer = (state = {}, action) => {
          return { loading: false, successTransport: true };
       case ADD_TRANSPORT_FAIL:
          return {loading: false, errorTransport: action.payload};
-      case ADD_ACCOMODATION_SUCCESS:
+      case REMOVE_TRANSPORT_SUCCESS:
+         return { loading: false, successTransport: true };
+      case REMOVE_TRANSPORT_FAIL:
+         return {loading: false, errorTransport: action.payload};
+      case ADD_ACCOMMODATION_SUCCESS:
          return {loading: false, successAccommodation: true };
-      case ADD_ACCOMODATION_FAIL:
+      case ADD_ACCOMMODATION_FAIL:
          return {loading: false, errorAccommodation: action.payload};
+      case REMOVE_ACCOMMODATION_SUCCESS:
+            return {loading: false, successAccommodation: true };
+      case REMOVE_ACCOMMODATION_FAIL:
+            return {loading: false, errorAccommodation: action.payload};
       case ADD_DAILY_ITINERARY_SUCCESS:
          return {loading: false, successDailyItinerary: true }
       case ADD_DAILY_ITINERARY_FAIL: 
+         return {loading: false, errorDailyItinerary: action.payload};
+      case REMOVE_DAILY_ITINERARY_SUCCESS:
+         return {loading: false, successDailyItinerary: true }
+      case REMOVE_DAILY_ITINERARY_FAIL: 
          return {loading: false, errorDailyItinerary: action.payload};
       case ITINERARY_WAS_COMPLETED_SUCCESS: 
          return {loading: false, completedItinerarySuccess: true};

@@ -1,13 +1,13 @@
 import React from 'react';
 import { Container, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const HomeHeader = () => (
    <div id="hero">
    <Container>
       <h1>Descomplique seu planejamento e viaje mais</h1>
       <h2>Encontre o roteiro perfeito para você!</h2>
-      <Button className='me-2'>Veja os Roteiros</Button>
-      <Button>Cadastre seu Roteiro</Button>
+      <Link className='btn btn-primary' to='/cadastro'>Cadastre seu Roteiro</Link>
    </Container>
    </div>
 );

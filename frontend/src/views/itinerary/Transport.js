@@ -2,11 +2,11 @@ import React from 'react';
 import { Card } from 'react-bootstrap';
 
 const Transport = ({transport}) => (
-   <Card className='mt-3'>
+   <Card className='mb-4'>
       <Card.Body>
-      <h3>Tipo: {transport.type}</h3>
-      <p>Valor: {transport.value}</p>
-      <p>Valor: {transport.description}</p>
+      <p className='title mb-0'>{transport.type}</p>
+      <p className='h5'>R$ {transport.value},00</p>
+      <p>{transport.description}</p>
       </Card.Body>
    </Card>
 );

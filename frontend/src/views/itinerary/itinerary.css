@@ -1,0 +1,75 @@
+.main-info {
+   background-color: #4dd0e1;
+   padding: 20px;
+   border-radius: 10px;
+   box-shadow: 0 3px 10px rgba(0,0,0,.15);
+}
+
+.main-info .title {
+   /* color: #4dd0e1; */
+   text-align: left;
+   font-size: 18px;
+}
+
+.location-content li {
+   font-weight: 600;
+   list-style: none;
+}
+.location-content li span { 
+   font-weight: 400;
+   font-size: 80%;
+}
+
+.itinerary-description {
+   padding: 20px 50px;
+   border-radius: 10px;
+   box-shadow: 0 3px 10px rgba(0,0,0,.25);
+}
+
+.nav-pills .nav-link {
+   border-radius: 20px;
+   padding: 6px 30px;
+   margin: 0 20px;
+   color: #4dd0e1;
+   margin-bottom: 30px;
+}
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link, .date {
+   background-color: #4dd0e1;
+}
+.tab-content .card {
+   border-color: #4dd0e1;
+   border-radius: 10px;
+}
+.date {
+   font-size: 30px;
+   font-weight: 600;
+   border-radius: 10px;
+   margin-right: 15px;
+   padding: 10px 15px 12px;
+   text-align: center;
+   line-height: .8;
+}
+.date span {
+   display: block;
+   font-weight: 400;
+   font-size: 20px;
+   /* margin-top: -5px; */
+}
+
+.full-itinerary .card .title {
+   font-size: 24px;
+   text-align: left;
+}
+
+.deleteModal {
+   padding: 40px;
+   text-align: center
+}
+.btn-close {
+   position: absolute;
+   top: 20px;
+   right: 20px;
+}
+.cancelBtn {
+   color: #4dd0e1;
+}

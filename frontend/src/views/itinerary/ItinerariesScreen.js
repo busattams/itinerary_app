@@ -1,21 +1,30 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container, Row, Col, ListGroup, Tabs, Tab } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Container, Row, Col, Tabs, Tab, Table, Button, Modal } from 'react-bootstrap';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import Transport from './Transport';
 import Accommodation from './Accommodation';
 import DailyItinerary from './DailyItinerary';
 import { listItineraryDetail } from '../../store/actions/itineraryAction';
+import './itinerary.css';
 
 
-const ItinerariesScreen = ({ match }) => {
+const ItinerariesScreen = ({ match, history }) => {
    const dispatch = useDispatch();
+
+   const [show, setShow] = useState(false);
+   const handleClose = () => setShow(false);
+   const handleShow = () => setShow(true);
+   
+   const [deleteError, setDeleteError] = useState('');
 
    const itineraryDetail = useSelector(state => state.itineraryDetail);
    const { loading, error, itinerary } = itineraryDetail;
    
+   const { userInfo } = useSelector(state => state.userLogin);
+
    useEffect(() => {
       dispatch(listItineraryDetail(match.params.id));  
    }, [dispatch, match]);
@@ -23,8 +32,6 @@ const ItinerariesScreen = ({ match }) => {
 
    const [key, setKey] = useState('itinerary');
 
-   console.log(itinerary)
-   
    const transportValues = [];
    let totalTransport;
    const accommodationValues = [];
@@ -42,38 +49,83 @@ const ItinerariesScreen = ({ match }) => {
       totalAccommodation = accommodationValues.reduce(valueReducer)
    }
 
+   const deleteItinerary = async () => {
+      try {
+         const config = {
+            headers: {
+               Authorization: `Bearer ${userInfo.token}`
+            },
+         }
+        await axios.delete(
+            `http://localhost:3001/api/itinerary/${itinerary._id}`,
+            config
+         );
+         history.push(`/profile`)
+      } catch(error) {
+         setDeleteError(error.message);
+         setShow(false);
+      }
+   }
+
+
    return (
       <>
       { loading ? ( <Loader /> ) : 
         error ? ( <Message variant='danger' children={error} /> ) : (
          <> 
-         <div id="hero">
+         <div id="hero" style={{background: `url(${itinerary.image})`, backgroundPosition: "center", backgroundSize: "cover"}}>
             <Container>
                <h1>{itinerary.title}</h1>
             </Container>
          </div>
-         <Container className='mb-5'>
-         <Row>
-            <Col md={4}>
-               <h2>Informações do Roteiro</h2>
-               <ListGroup>
-                  <ListGroup.Item>Viajantes: {itinerary.qntyTravelers}</ListGroup.Item>
-                  <ListGroup.Item> 
-                     {itinerary.location.map(local => (
-                        <p key={local}>{local}</p>
-                     ))}
-                  </ListGroup.Item>
-                  <ListGroup.Item> Descritivo: {itinerary.description}</ListGroup.Item>
-                  <ListGroup.Item> Criado por: {itinerary.user.name}</ListGroup.Item>
-               </ListGroup>
-            </Col>
+         <Container className='mb-5 full-itinerary'>
+            <Row>
+               <Col md={10} className='mx-auto'>
+            <div className='main-info mb-5'>
+               <Row>
+                  <Col md={8}>
+                     <h4 className='title'>Descritivo:</h4>
+                     <p>{itinerary.description}</p>
+                  </Col>
+                  <Col md={4}>
+                     <h4 className='title'>Locais</h4>
+                     <ul className='location-content p-0 mb-3'>
+                        {itinerary.location.map(local => (
+                        <li  key={local.location}>
+                           {local.location.split(',')[0]} <span>({local.location.split(',')[1]} - {local.location.split(',')[2]})</span>
+                        </li>
+                        ))}
+                     </ul>
+                     <p><strong>Viajantes:</strong> {itinerary.qntyTravelers}  </p>
+                     <p><strong>Criado por: </strong> {itinerary.user.name}</p>
+                     
+                     { itinerary.user._id === userInfo._id && (
+                        <>
+                        <Button variant='light' className='btn-sm' onClick={handleShow}><i className='far fa-trash-alt'></i> Excluir roteiro </Button>
+                        <Modal show={show} onHide={handleClose} centered>
+                           <Modal.Header closeButton className='d-block deleteModal'>
+                              <Modal.Title>Tem certeza que quer excluir este roteiro? Isso não pode ser desfeito.</Modal.Title>
+                              <Button variant="danger" onClick={deleteItinerary} className='mt-4'>
+                                 Excluir
+                              </Button>
+                              <p onClick={handleClose} className='mt-2 mb-0 cancelBtn'>
+                                 Cancelar
+                              </p>
+                           </Modal.Header>
+                        </Modal>
+                        </>
+                     )}
+                  </Col>
+               </Row>
+            </div>
+            { deleteError && <Message variant='danger' children={deleteError} />}
 
-            <Col md={8} className='bg-white rounded p-2'>
-            <Tabs
+            <div className='itinerary-description'>
+            <Tabs variant='pills'
                id="itinerary-description"
                activeKey={key}
                onSelect={(k) => setKey(k)}
-               className="mb-3 bg-white"
+               className="mb-3 justify-content-center"
             >
                <Tab eventKey="itinerary" title="Itinerário">
                   {itinerary.dailyItinerary.map(itinerary => (
@@ -92,21 +144,31 @@ const ItinerariesScreen = ({ match }) => {
                </Tab>
                
                <Tab eventKey="values" title="Valores">
-                  <h2>Transporte:</h2>
-                  R$ {totalTransport}
-
-                  <h2>Hospedagem:</h2>
-                  R$ {totalAccommodation}
-
-                  <h2>Total: R${totalTransport + totalAccommodation} </h2>
+               <Table striped bordered hover>
+                  <tbody>
+                     <tr>
+                        <td>Hospedagem</td>
+                        <td>R$ {totalAccommodation},00 </td>
+                     </tr>
+                     <tr>
+                        <td>Transporte</td>
+                        <td>R$ {totalTransport},00 </td>
+                     </tr>
+                     <tr>
+                        <td><strong>Total</strong></td>
+                        <td><strong>R$ {totalTransport + totalAccommodation},00</strong></td>
+                     </tr>
+                  </tbody>
+                  </Table>
                </Tab>
 
             </Tabs>
 
            
                
+               </div>
                </Col>
-         </Row>
+               </Row>
          </Container>
                  </>
       )}

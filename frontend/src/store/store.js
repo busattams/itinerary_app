@@ -7,7 +7,8 @@ import {
    newItineraryReducer, 
    newItineraryFormReducer, 
    newItineraryCompleteReducer,
-   itineraryDetailReducer
+   itineraryDetailReducer,
+   useritineraryDetailReducer
  } from './reducers/itineraryReducer';
 
 
@@ -18,6 +19,7 @@ const reducer = combineReducers({
    newItinerary: newItineraryReducer,
    newItineraryFormInfo: newItineraryFormReducer,
    newItineraryComplete: newItineraryCompleteReducer,
+   userItineraries: useritineraryDetailReducer
 });
 
 const userInfoFromStorage = localStorage.getItem('userInfo') ?
@@ -32,6 +34,7 @@ const completeNewItinarayFromStorage = localStorage.getItem('newItineraryComplet
 const initialState = {
    userLogin: { userInfo: userInfoFromStorage, messageLogin: '' },
    itineraryList: {itineraries: []},
+   userItineraries: { itinerary: []},
    newItinerary: {itinerary: newItinarayFromStorage},
    newItineraryComplete: {itinerary: completeNewItinarayFromStorage},
 };

@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import Transport from './transport.js';
 
 const refSchema =  mongoose.Schema.Types.ObjectId;
 
@@ -17,14 +16,20 @@ const ItinerarySchema = mongoose.Schema({
       type: Number,
       required: true
    },
-   location: [{
+   image: {
       type: String,
       required: true
-   }],
+   },
+   dateStart: { type: Date },
+   dateEnd: { type: Date }, 
    description: {
       type: String,
       required: true 
    },
+   location: [{
+      type: refSchema,
+      ref: 'Location'
+   }],
    transport: [{
       type: refSchema,
       ref: 'Transport'

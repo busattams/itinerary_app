@@ -1,0 +1,214 @@
+
+#progressbar {
+	overflow: hidden;
+   max-width: 500px;
+   display: flex;
+   margin: 0 auto;
+}
+#progressbar li {
+   list-style-type: none;
+  text-align: center;
+	color: #ced4da;
+	font-size: 14px;
+	width: 25%;
+	position: relative;
+   line-height: 2;
+}
+#progressbar li:after {
+   content: '';
+   width: 100%;
+   height: 2px;
+	line-height: 30px;
+	display: block;
+   position: relative;
+   z-index: 2;
+	background: #ced4da;
+}
+
+#progressbar li.active {color: #4dd0e1;}
+#progressbar li.active:before,  #progressbar li.active:after{
+	background: #4dd0e1;
+	color: white;
+}
+
+.title {
+   font-size: 32px;
+   font-weight: 900;
+   text-align: center;
+}
+
+.form-wrapper {
+   padding: 40px;
+   padding-top: 0;
+   background: #fff;
+   max-width: 600px;
+   margin: 30px auto;
+ }
+
+.form-control, .form-select , input[type="text" i]{
+   padding: .75rem 1rem;
+   border-radius: 10px;
+   border: 1px solid #ced4da;
+}
+.input-group-text {
+   border-radius: 10px;
+   background: transparent;
+   color: #313131;
+   font-weight: 600;
+   border-right: none;
+}
+
+.form-label {
+   color: #313131;
+   font-weight: 600;
+   line-height: 1;
+}
+
+textarea.form-control {
+	resize: none;
+}
+
+input::placeholder, .form-control::placeholder {
+   color:#ced4da
+}
+
+.mapboxgl-ctrl-geocoder {border: none;}
+.mapboxgl-ctrl-geocoder--input  {
+   height: 50px;
+   padding: .75rem 2rem;
+   border-radius: 10px;
+   outline: none !important;
+   border: 1px solid #ced4da;
+}
+.mapboxgl-ctrl-geocoder--icon {
+   top: 13px;
+   left: 10px;
+   width: 22px;
+   height: 22px;
+   fill: #ced4da;
+}
+
+
+input:focus, .form-control:focus, .mapboxgl-ctrl-geocoder--input:focus, 
+.form-select:focus, input[type="text" i]:focus {
+   box-shadow:0 0 0px 0.25rem rgb(77 208 225 / 25%);
+   border-color: #4dd0e1;
+   outline: none;
+}
+.react-datepicker__input-container:before {
+	content: '\f133';
+	font-family: 'Font Awesome 5 Free';
+	position: absolute;
+	top: 14px;
+	left: 12px;
+	font-size: 16px;
+	color: #ced4da
+}
+.react-datepicker__input-container input {
+	padding-left: 35px;
+}
+.react-datepicker-popper {z-index: 3 !important;}
+
+
+.location-wrapper {
+   margin-top: 20px;
+   display: flex;
+   flex-wrap: wrap;
+}
+
+.location-item { 
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 10px;
+   margin-right: 10px;
+   padding: 7px 15px 7px 24px ;
+   border: 1px solid #4dd0e1;
+   border-radius: 15px;
+}
+.location-item p {
+   line-height: 1.1;
+   font-weight: 600;
+   font-size: 14px;
+   margin: 0;
+}
+.location-item p span {
+   display: block;
+   font-weight: 400;
+   font-size: 12px;
+}
+
+.location-wrapper i {
+   margin-left: 20px;
+	font-size: 15px;
+   color: #4dd0e1;
+	cursor: pointer;
+}
+
+.transport-wrapper .location-item{
+   background: #4dd0e1;
+}
+.transport-wrapper .location-item p {font-size: 16px;}
+
+.warning-location .mapboxgl-ctrl-geocoder--input {
+   border-color: #dc3545;
+}
+.warning-location .form-label span {
+   font-size: 12px;
+   color: #dc3545;
+   font-weight: 400;
+   margin-left: 5px;
+}
+.btn {
+   height: 50px;
+   padding: 10px 50px;
+   font-size: 18px;
+   font-weight: 600;
+   border-radius: 30px;
+}
+.btn.btn-sm {
+   font-size: 14px;
+   padding: 5px 15px;
+   height: auto;
+}
+.btn.btn-primary {
+   background: #4dd0e1;
+   border-color: #4dd0e1;
+  
+}
+.btn.btn-outline-primary {
+   border-color: #4dd0e1;
+   border-radius: 30px;
+   color: #4dd0e1;
+   padding: 10px 20px;
+   font-weight: 600;
+   font-size: 16px;
+}
+.btn.btn-outline-primary:focus,
+.btn.btn-outline-primary:active {
+   box-shadow: 0 0 0 0.25rem rgb(77 208 225 / 49%);
+}
+.btn.btn-outline-primary:hover,
+.btn.btn-outline-primary:active {
+   background: #4dd0e1;
+   color: #fff;
+}
+
+.react-datepicker, .react-datepicker__header {
+   border: 1px solid #4dd0e1;
+}
+.react-datepicker__day--selected, 
+.react-datepicker__header {
+   background: #4dd0e1 !important;
+}
+.react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::after,
+.react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::before {
+   border-bottom-color: #4dd0e1;
+}
+.react-datepicker__year-read-view--down-arrow, .react-datepicker__month-read-view--down-arrow, .react-datepicker__month-year-read-view--down-arrow, .react-datepicker__navigation-icon::before {
+   border-color: #fff;
+}
+.react-datepicker__year-read-view--down-arrow, .react-datepicker__month-read-view--down-arrow:hover,
+.react-datepicker__month-year-read-view--down-arrow, .react-datepicker__navigation-icon::before:hover {
+   border-color: #212121;
+}

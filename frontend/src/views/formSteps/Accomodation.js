@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Button, Col, Row, ListGroup, InputGroup } from 'react-bootstrap';
+import { Form, Button, Col, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import NumberFormat from "react-number-format";
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import { addAccommodation, getCreatedItinerary } from '../../store/actions/itineraryAction';
+import { addAccommodation, deleteAccommodation, getCreatedItinerary } from '../../store/actions/itineraryAction';
 
 const Accomodation = ({setStep}) => {
    const [type, setType] = useState('');
@@ -57,109 +58,92 @@ const Accomodation = ({setStep}) => {
       }
    }
 
+   const removeAccommodation = (idaccommodation) => {
+      dispatch(deleteAccommodation(itineraryId, idaccommodation));
+   }
+
 
    return (
-      <Row className="mt-4">
-         <Col md={4} className='sidebar'>
-            <div className='form-wrapper mt-0 position-sticky'>
-               <h5>Instruções</h5>
-               <p>Dicas para cadastrar o roteiro perfeito!</p>   
-               <h6 className='fw-bold'>Título</h6>            
-               <p>Cadastre um título relevante, que facilite a busca por outros viajantes. Por exemplo, local ou estilo da</p>
+      <Form noValidate validated={validated} id="validateNextBtn" onSubmit={handleNewAccomodation} className='form-wrapper form-lg mt-0'>
+         <h4 className='title my-4'>Hospedagem</h4>
+         <Row>
+            <Form.Group as={Col} md={12} controlId='type' className='mb-4'>
+               <Form.Label>Tipo</Form.Label>
+               <Form.Select required value={type}
+               onChange={(e) => setType(e.target.value)}
+               placeholder='Tipo'>
+                  <option value=''>Selecione</option>
+                  <option value='Hotel'>Hotel</option>
+                  <option value='Pousada'>Pousada</option>
+                  <option value='Hostel/Albergue'>Hostel/Alguergue</option>
+                  <option value='AirBnB'>AirBnB</option>
+                  <option value='Aluguel de Temporada'>Aluguel de Temporada</option>
+                  <option value='Outro'>Outro</option>
+               </Form.Select>
+            </Form.Group>
+            <Form.Group as={Col} md={5} controlId='qntyDays' className='mb-4'>
+               <Form.Label>Quantidade de Diárias</Form.Label>
+               <Form.Control type='number' value={qntyDay} required 
+               onChange={(e) => setQntyDay(e.target.value)}
+               ></Form.Control>
+            </Form.Group>
+            <Form.Group  as={Col} md={6} controlId='value' className='mb-4'>
+               <Form.Label>Valor Total</Form.Label> 
+               <NumberFormat
+                  thousandsGroupStyle="thousand"
+                  value={value}
+                  prefix="R$ "
+                  decimalSeparator=","
+                  displayType="input"
+                  type="text"
+                  thousandSeparator="."
+                  allowNegative={false}
+                  decimalScale={2}
+                  fixedDecimalScale={true}
+                  placeholder="R$ 500,00"
+                  onValueChange={(values) => {
+                     const {floatValue} = values;
+                     setValue(floatValue)
+                  }}
+               />
+            </Form.Group>
+         </Row>
+         <Form.Group className="mb-3" controlId="description">
+            <Form.Label>Descritivo</Form.Label>
+            <Form.Control as="textarea" rows={5} required
+            value={description} onChange={(e) => setDescription(e.target.value)}
+            placeholder="Diga onde ficou hospedado, por onde reservou e o que mais achar necessário"
+            />
+         </Form.Group>
+         
+         <Button type='submit' variant='outline-primary'>
+            {loadingAccommodation ? <Loader /> : 'Acrescentar Hospedagem'}
+         </Button>
+
+         {errorAccommodation && <Message variant='danger' children={errorAccommodation} />}
+
+
+         { loading ? ( <Loader /> ) : error ? ( <Message variant='danger' children={error} /> ) : (
+         itinerary.accommodation.length > 0 && (
+            <div className='location-wrapper d-block mt-4'>
+            {itinerary.accommodation.map((a, i) => (
+               <div key={a._id} className='location-item'>
+                  <p>{a.type}</p>
+                  <p className='fw-normal ms-3'>R$ {a.value}</p>
+                  <i onClick={() => removeAccommodation(a._id)} className='fas fa-times'></i>   
+               </div>
+            ))}
             </div>
-         </Col>
-         <Col md={8}>
-            <>
                
-               <h4 className='text-uppercase mb-4'>Hospedagem</h4>
-               <Button type='button' onClick={() => setStep(2)}>Voltar</Button>
+         ))}
+   
+         {itinerary && (
+            (itinerary.accommodation.length > 0) && (
+               <Button className='mt-5 d-block mx-auto' type='button' onClick={nextStep} variant='primary'>Próximo</Button>
+            ))
+         }
+      </Form>
 
-               <Form noValidate validated={validated} id="validateNextBtn" onSubmit={handleNewAccomodation} className='form-wrapper form-lg mt-0'>
-                  <Form.Group as={Col} md={5} controlId='type' className='mb-3'>
-                     <Form.Label>Tipo</Form.Label>
-                     <Form.Select as='select'
-                        placeholder='Tipo' 
-                        value={type} 
-                        required
-                        onChange={(e) => setType(e.target.value)}
-                     >
-                           <option value=''>Selecione</option>
-                           <option value='Hotel'>Hotel</option>
-                           <option value='Pousada'>Pousada</option>
-                           <option value='Hostel/Albergue'>Hostel/Alguergue</option>
-                           <option value='AirBnB'>AirBnB</option>
-                           <option value='Aluguel de Temporada'>Aluguel de Temporada</option>
-                           <option value='Outro'>Outro</option>
-                     </Form.Select>
-                  </Form.Group>
-                  <Row>
-
-                  <Col md={4}>
-                     <Form.Group controlId='qntyDays' className='mb-3'>
-                        <Form.Label>Quantidade de Diárias</Form.Label>
-                        <Form.Control type='number'
-                           value={qntyDay}
-                           required 
-                           onChange={(e) => setQntyDay(e.target.value)}
-                        ></Form.Control>
-                     </Form.Group>
-                  </Col>
-                  <Col md={4}>
-                     <Form.Group controlId='value' className='mb-3'>
-                        <Form.Label>Valor Total</Form.Label>
-                        <InputGroup>
-                           <InputGroup.Text>R$</InputGroup.Text>
-                           <Form.Control type='number'
-                              value={value} 
-                              required
-                              onChange={(e) => setValue(e.target.value)}
-                           ></Form.Control>
-                        </InputGroup>
-                     </Form.Group>
-                  </Col>
-                  </Row>
-
-                  <Form.Group className="mb-3" controlId="description">
-                     <Form.Label>Descritivo</Form.Label>
-                     <Form.Control as="textarea" rows={3}
-                        value={description} 
-                        required
-                        onChange={(e) => setDescription(e.target.value)}
-                     />
-                  </Form.Group>
-                  {errorAccommodation && <Message variant='danger' children={errorAccommodation} />}
-                  <Button type='submit' variant='success'>
-                     {loadingAccommodation ? <Loader /> : 'Acrescentar Hospedagem'}
-                  </Button>
-
-
-                  {(successAccommodation || (itinerary.accommodation.length > 0)) && (
-                     <Button className='mt-3 d-block ms-auto' type='button' onClick={nextStep} variant='success'>Próximo</Button>
-                  )}
-               </Form>
-
-
-            { loading ? ( <Loader /> ) : error ? ( <Message variant='danger' children={error} /> ) : (
-
-               itinerary.accommodation.length > 0 && (
-                  <ListGroup  className='mb-4 listContent'>
-                  {itinerary.accommodation.map((a, i) => (
-                     <ListGroup.Item key={`${a}-${i}`} className='d-flex align-items-center justify-content-between flex-wrap'>
-                        <span>{a.type}</span>
-                        <span>R$ {a.value}</span>
-                        <span>
-                           <Button type='button' variant='warning' className='btn-sm me-2' >Ed</Button>
-                           <Button type='button' variant='danger' className='btn-sm' >Ex</Button>
-                        </span>
-                     </ListGroup.Item>
-                  ))}
-               </ListGroup>
-               )
-            )}
-
-            </>
-         </Col>
-      </Row> 
    ) 
 }
 

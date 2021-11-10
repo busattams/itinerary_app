@@ -10,14 +10,10 @@ const HomeScreen = () => {
    return (
       <>
          <HomeHeader />
-         <Container id='home'>
+         <Container id='home' className='mb-5'>
+            <h1 className="h3 fw-bolder mb-4">Últimos roteiros cadastrados</h1>
             <Row>
-               <Col md={3} lg={4}>
-                  <h4>Para onde você quer ir?</h4>
-               </Col>
-               <Col md={9} lg={8}>
-                  <Itineraries />
-               </Col>
+               <Itineraries />
             </Row>
          </Container>
       </>

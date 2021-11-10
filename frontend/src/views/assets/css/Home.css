@@ -7,6 +7,7 @@
    color: white;
    margin-bottom: 2rem;
    background: url(../images/homeBackground.jpg) center;
+   background-size: cover;
    position: relative;
 }
 #hero:before {
@@ -21,16 +22,74 @@
 #hero .container {
    position: relative;
 }
-.itinerary-wrapper {
-   flex-direction: row;
+
+.itinerary-content {
+   width: 100%;
+   height: 300px;
+   overflow: hidden;
+   position: relative;
+   display: block;
+   color: #fff !important;
+   border-radius: 10px;
 }
-.itinerary-wrapper .itinerary-img {
-   flex: 0 0 40%;
-   padding: 10px;
-}
-.itinerary-wrapper .itinerary-img img {
+.itinerary-content:before {
+   content: '';
    width: 100%;
    height: 100%;
+   position: absolute;
+   left: 0;
+   top: 0;
+   background: rgba(0,0,0,.6);
+   z-index: 2;
+}
+.itinerary-content img {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 300px;
+   transform: scale(1);
    object-fit: cover;
-   border-radius: 5px;
+   transition: all .5s ease;
+}
+.itinerary-content:hover img {
+   transform: scale(1.2);
+}
+.itinerary-info {
+   position: relative;
+   z-index: 3;
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   text-align: center;
+   padding: 20px;
+}
+.itinerary-content .title {
+   font-weight: 600;
+   font-size: 38px;
+   line-height: 1;
+}
+.itinerary-people {
+   position: absolute;
+   top: 10px;
+   left: 10px;
+   background:#4dd0e1 !important;
+}
+.itinerary-tags .badge {
+   background:#4dd0e1 !important;
+   margin-right: 5px;
+   font-weight: 400;
+   color: #313131;
+}
+
+.itinerary-controllers i {
+   position: absolute;
+   top: 10px;
+   right: 25px;
+   color: #fff;
+   font-size: 20px;
+   z-index: 4;
+   cursor: pointer;
 }

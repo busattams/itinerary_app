@@ -3,7 +3,7 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
+import { Navbar, Nav, Container } from 'react-bootstrap';
 import { logout } from '../../store/actions/userActions'
 
 const Header = ({history}) => {
@@ -18,7 +18,7 @@ const Header = ({history}) => {
    }
    return (
    <header>
-   <Navbar bg="dark" variant="dark" expand="md" collapseOnSelect>
+   <Navbar expand="md" collapseOnSelect>
       <Container>
          <LinkContainer to="/">
             <Navbar.Brand>Roteiros</Navbar.Brand>
@@ -27,19 +27,19 @@ const Header = ({history}) => {
          <Navbar.Collapse id="basic-navbar-nav" >
             <Nav className="ms-auto">
                <LinkContainer to='/'>
-                  <Nav.Link ><i className="fas fa-home"></i>Home</Nav.Link>
+                  <Nav.Link >Início</Nav.Link>
                </LinkContainer>
                <LinkContainer to='/cadastro'>
-                  <Nav.Link ><i className="fas fa-home"></i>Cadastre</Nav.Link>
+                  <Nav.Link >Cadastre</Nav.Link>
                </LinkContainer>
               
                {userInfo ? (
-                  <NavDropdown title={`Hello, ${userInfo.name}`} id='username'>
+                  <>
                      <LinkContainer to='/profile'>
-                        <NavDropdown.Item> My Profile</NavDropdown.Item>
+                        <Nav.Link> Meus Roteiros</Nav.Link>
                      </LinkContainer>
-                     <NavDropdown.Item onClick={logoutHandler} className='border-top mt-3 pt-2'>Logout</NavDropdown.Item>
-                  </NavDropdown>
+                     <Nav.Link onClick={logoutHandler}>Sair <i className="fas fa-sign-out-alt ms-1"></i></Nav.Link>
+                  </>
                ) : 
                <LinkContainer to="/login">
                   <Nav.Link><i className="fas fa-user"></i>Entre</Nav.Link>
