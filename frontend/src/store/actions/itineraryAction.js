@@ -34,7 +34,8 @@ import {
 import axios from 'axios';
 
 
-const url = 'http://localhost:3001/api';
+// const url = 'http://localhost:3001/api';
+const url = '/api';
 
 
 export const listItineraries = () => async (dispatch) => {
