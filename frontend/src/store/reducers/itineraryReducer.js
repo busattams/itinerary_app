@@ -117,7 +117,7 @@ export const newItineraryFormReducer = (state = {}, action) => {
       case ITINERARY_WAS_COMPLETED_FAIL: 
          return {loading: false, completedItineraryError: action.payload}
       case RESET_NEW_ITINERARY:
-         return state
+            return state
       default:
          return state;
    }
@@ -128,7 +128,7 @@ export const newItineraryReducer = (state = {}, action) => {
       case CREATED_ITINERARY_SUCCESS:
          return { itinerary: action.payload };
       case RESET_NEW_ITINERARY:
-         return state
+         return { itinerary: null }
       default:
          return state;
    }
@@ -142,6 +142,8 @@ export const newItineraryCompleteReducer = (state = {}, action) => {
          return { loading: false, success: true, itinerary: action.payload};
       case GET_CREATED_ITINERARY_FAIL:
          return { loading: false, error: action.payload};
+      case RESET_NEW_ITINERARY:
+            return {itinerary: null}
       default:
          return state;
    }

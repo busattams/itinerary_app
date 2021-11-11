@@ -15,8 +15,6 @@ const Itineraries = () => {
    const itineraryList = useSelector(state => state.itineraryList);
    const { loading, error, itineraries } = itineraryList;
   
-   const { userInfo } = useSelector(state => state.userLogin);
-
    useEffect(() => {
       dispatch(listItineraries());
    }, [dispatch]);
@@ -29,7 +27,7 @@ const Itineraries = () => {
       <>
       { loading ? ( <Loader /> ) : error ? ( <Message variant='danger' children={error} /> ) : (
          itineraries.map(itinerary => (
-            <Col md={4}  key={itinerary._id} className='position-relative'>
+            <Col md={4}  key={itinerary._id} className='position-relative mb-4'>
                <Link to={`/roteiros/${itinerary._id}`} className='itinerary-content'>
                <img src={itinerary.image} className="img-fluid" alt={itinerary.title}/>
                 <div className='itinerary-info'>

@@ -9,6 +9,7 @@ import Accommodation from './Accommodation';
 import DailyItinerary from './DailyItinerary';
 import { listItineraryDetail } from '../../store/actions/itineraryAction';
 import './itinerary.css';
+import { RESET_NEW_ITINERARY } from '../../store/constants/itineraryConstants';
 
 
 const ItinerariesScreen = ({ match, history }) => {
@@ -26,6 +27,7 @@ const ItinerariesScreen = ({ match, history }) => {
    const { userInfo } = useSelector(state => state.userLogin);
 
    useEffect(() => {
+      dispatch({type: RESET_NEW_ITINERARY});
       dispatch(listItineraryDetail(match.params.id));  
    }, [dispatch, match]);
 
@@ -57,7 +59,7 @@ const ItinerariesScreen = ({ match, history }) => {
             },
          }
         await axios.delete(
-            `http://localhost:3001/api/itinerary/${itinerary._id}`,
+            `/api/itinerary/${itinerary._id}`,
             config
          );
          history.push(`/profile`)
@@ -99,7 +101,9 @@ const ItinerariesScreen = ({ match, history }) => {
                      <p><strong>Viajantes:</strong> {itinerary.qntyTravelers}  </p>
                      <p><strong>Criado por: </strong> {itinerary.user.name}</p>
                      
-                     { itinerary.user._id === userInfo._id && (
+                     { userInfo && (
+
+                     itinerary.user._id === userInfo._id && (
                         <>
                         <Button variant='light' className='btn-sm' onClick={handleShow}><i className='far fa-trash-alt'></i> Excluir roteiro </Button>
                         <Modal show={show} onHide={handleClose} centered>
@@ -114,7 +118,7 @@ const ItinerariesScreen = ({ match, history }) => {
                            </Modal.Header>
                         </Modal>
                         </>
-                     )}
+                     ))}
                   </Col>
                </Row>
             </div>

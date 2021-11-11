@@ -8,7 +8,6 @@ import LoginScreen from './views/LoginScreen';
 import RegisterScreen from './views/RegisterScreen';
 import CadastroScreen from './views/CadastroScreen';
 import ItinerariesScreen from './views/itinerary/ItinerariesScreen';
-// import TestesScreen from './views/TestesScreen';
 
 const App = () => (
   <Router>
@@ -20,7 +19,6 @@ const App = () => (
         <Route path='/register' component={RegisterScreen} exact  />
         <Route path='/profile' component={UserItinerary} exact  />
         <Route path='/roteiros/:id' component={ItinerariesScreen}  />
-        {/* <Route path='/testes' component={TestesScreen} exact  /> */}
     </main>
     <Footer />
   </Router>

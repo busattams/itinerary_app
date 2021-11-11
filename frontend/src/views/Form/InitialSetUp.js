@@ -57,8 +57,9 @@ const InitialSetUp = ({ setStep }) =>  {
 
     // IMAGES API 
     const uploadFileHandler = async (e) => {
-       setUploading(true);
        try {
+         setUploading(true);
+         console.log(uploading)
          const url = `https://api.cloudinary.com/v1_1/${cloudinary_cloud}/image/upload`;
          const file = e.target.files[0];
          const formData = new FormData();

@@ -37,7 +37,7 @@ const UserItinerary = ({ history }) => {
       { error && <Message variant='warning' children={error} /> }
       { itinerary && 
          itinerary.map(itinerary => (
-            <Col md={4}  key={itinerary._id} className='position-relative'>
+            <Col md={4}  key={itinerary._id} className='position-relative mb-4'>
                 <Link to={`/roteiros/${itinerary._id}`} className='itinerary-content'>
                    <img src={itinerary.image} className="img-fluid" alt={itinerary.title}/>
                    <div className='itinerary-info'>

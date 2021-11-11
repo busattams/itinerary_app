@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Container, Row } from 'react-bootstrap';
-import Accomodation from './formSteps/Accomodation';
-import InitialSetUp from './formSteps/InitialSetUp'
-import Transport from './formSteps/Transport';
-import Days from './formSteps/Days';
+import Accomodation from './Form/Accomodation';
+import InitialSetUp from './Form/InitialSetUp'
+import Transport from './Form/Transport';
+import Days from './Form/Days';
 import './assets/css/Form.css';
 import { MESSAGE_LOGIN } from '../store/constants/userConstants';
 

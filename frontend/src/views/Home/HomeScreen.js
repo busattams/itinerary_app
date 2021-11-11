@@ -1,7 +1,7 @@
 import React from 'react';
 import HomeHeader from './HomeHeader';
 import Itineraries from './Itineraries';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
 import '../assets/css/Home.css';
 
 const HomeScreen = () => {
