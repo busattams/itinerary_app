@@ -7,6 +7,7 @@ import {
    USER_REGISTER_FAIL,
 } from '../constants/userConstants';
 import axios from 'axios';
+import { RESET_NEW_ITINERARY } from '../constants/itineraryConstants';
 
 // const url = 'http://localhost:3001/api';
 const url = '/api';
@@ -71,6 +72,9 @@ export const login = (email, password) => async (dispatch) => {
 }
 
 export const logout = () => (dispatch) => {
+   localStorage.removeItem('newItinerary');
+   localStorage.removeItem('newItineraryComplete');
+   dispatch({type: RESET_NEW_ITINERARY});
    localStorage.removeItem('userInfo');
    dispatch({type: USER_LOGOUT});
 }

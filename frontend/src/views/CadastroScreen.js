@@ -27,6 +27,9 @@ const CadastroScreen = ({history}) => {
    }
 
    const [ step, setStep ] = useState(currentStep);
+   
+   
+   console.log('passo', currentStep)
 
    useEffect(() => {
       if(!userInfo) {

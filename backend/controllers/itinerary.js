@@ -28,7 +28,7 @@ const createItinerary = asyncHandler(async (req, res) => {
 // @route GET /api/itinerary/
 // @access Public
 const getItineraries = asyncHandler(async (req, res) => {
-   const itineraries = await Itinerary.find().populate('location');
+   const itineraries = await Itinerary.find().sort({ _id: -1 }).populate('location');
    res.json(itineraries);
 });
 
@@ -107,24 +107,6 @@ const addTransport = asyncHandler(async (req, res) => {
    }
 });
 
-// @desc Editar Informações de Transporte
-// @route POST /api/itinerary/:id/transport/:idtransport
-// @access Private
-const editTransport = asyncHandler(async (req, res) => {
-   const itinerary = await Itinerary.findById(req.params.id);
-   if(itinerary) {
-      const transport = itinerary.transport.filter((t) => {
-         return t._id === req.params.idtransport;
-      })
-      // const { type, value, description } = req.body; 
-      // itinerary.transport.push({type, value, description });
-      // const updatedItinerary = await itinerary.save();
-      res.json(itinerary.transport);
-   } else {
-      res.status(404);
-      throw new Error('Roteiro não encontrado.')
-   }
-});
 
 // @desc Remover Informações de Transporte
 // @route DELETE /api/itinerary/:id/transport/:idtransport
@@ -229,7 +211,6 @@ export {
    getItinerary,
    deleteItinerary, 
    addTransport, 
-   editTransport,
    deleteTransport,
    addAccomodation, 
    deleteAccomodation,

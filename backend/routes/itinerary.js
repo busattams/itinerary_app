@@ -8,7 +8,6 @@ import {
    deleteAccomodation, 
    deleteItinerary, 
    deleteTransport, 
-   editTransport, 
    getDailyItineraries, 
    deleteDaily,
    getItineraries, 
@@ -16,7 +15,7 @@ import {
    updatedItineraryToComplete,
    getUserItineraries
 } from '../controllers/itinerary.js';
-import { protect } from '../middleware/authMiddleware.js';
+import { protect, isAuthor } from '../middleware/authMiddleware.js';
 
 router.route('/')
    .post(protect, createItinerary)
@@ -24,32 +23,32 @@ router.route('/')
 
 router.route('/:id')
    .get(getItinerary)
-   .delete(protect, deleteItinerary)
+   .delete(protect, isAuthor, deleteItinerary)
    
 router.route('/:id/edit')
-   .get(protect, getItinerary)
+   .get(protect, isAuthor, getItinerary)
 
 router.route('/:id/transport')
-   .post(protect, addTransport)
+   .post(protect, isAuthor, addTransport)
 
 router.route('/:id/transport/:idtransport')
-   .delete(protect, deleteTransport);
+   .delete(protect, isAuthor, deleteTransport);
 
 router.route('/:id/accommodation')
-   .post(protect, addAccomodation)
+   .post(protect, isAuthor, addAccomodation)
 
 router.route('/:id/accommodation/:idaccommodation')
-   .delete(protect, deleteAccomodation)
+   .delete(protect, isAuthor, deleteAccomodation)
 
 router.route('/:id/daily')
-   .get(protect, getDailyItineraries)
-   .post(protect, addDaily);
+   .get(protect, isAuthor, getDailyItineraries)
+   .post(protect, isAuthor, addDaily);
 
 router.route('/:id/daily/:iddaily')
-   .delete(protect, deleteDaily)
+   .delete(protect, isAuthor, deleteDaily)
 
 router.route('/:id/completed')
-   .patch(protect, updatedItineraryToComplete)
+   .patch(protect, isAuthor, updatedItineraryToComplete)
 
 router.route('/user/:userId')
    .get(protect, getUserItineraries)

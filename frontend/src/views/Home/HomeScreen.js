@@ -11,7 +11,6 @@ const HomeScreen = () => {
       <>
          <HomeHeader />
          <Container id='home' className='mb-5'>
-            <h1 className="h3 fw-bolder mb-4">Últimos roteiros cadastrados</h1>
             <Row>
                <Itineraries />
             </Row>

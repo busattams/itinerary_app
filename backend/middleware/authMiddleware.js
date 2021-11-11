@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import asyncHandler from 'express-async-handler';
 import User from '../models/user.js';
+import Itinerary from '../models/itinerary.js';
 
 const protect = asyncHandler(async (req, res, next) => {
    let token;
@@ -30,4 +31,16 @@ const protect = asyncHandler(async (req, res, next) => {
 
 
 
-export { protect }
+const isAuthor = asyncHandler(async (req, res, next) => {
+   const { id } = req.params;
+   const itinerary = await Itinerary.findById(id);
+   if(!itinerary.user.equals(req.user._id)) {
+      res.status(401);
+      throw new Error("Roteiro não cadastrado pelo usuário.")
+   } 
+   next();
+});
+
+
+
+export { protect, isAuthor }

@@ -13,8 +13,10 @@ const Itineraries = () => {
    const dispatch = useDispatch();
 
    const itineraryList = useSelector(state => state.itineraryList);
-   const { loading, error, itineraries } = itineraryList;
+   const { loading, error, itineraries:allItineraries } = itineraryList;
   
+   const itineraries = allItineraries.filter(itinerary => itinerary.isComplete)
+   console.log(itineraries)
    useEffect(() => {
       dispatch(listItineraries());
    }, [dispatch]);
